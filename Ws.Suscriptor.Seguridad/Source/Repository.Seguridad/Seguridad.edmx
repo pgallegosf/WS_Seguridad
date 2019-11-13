@@ -1,0 +1,961 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="OpeCarModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Acceso">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+            <PropertyRef Name="IdAcceso" />
+          </Key>
+          <Property Name="IdUsuario" Type="bigint" Nullable="false" />
+          <Property Name="IdAcceso" Type="bigint" Nullable="false" />
+          <Property Name="HostAdress" Type="nvarchar" MaxLength="20" />
+          <Property Name="HostName" Type="nvarchar" MaxLength="20" />
+          <Property Name="Agente" Type="nvarchar" MaxLength="100" />
+          <Property Name="Token" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="TokenHabilitado" Type="bit" Nullable="false" />
+          <Property Name="TokenFechaExp" Type="datetime" Nullable="false" />
+          <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
+          <Property Name="NombreUsuario" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="AccesoError">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="char" MaxLength="26" Nullable="false" />
+          <Property Name="Usuario" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="HostAdress" Type="varchar" MaxLength="20" />
+          <Property Name="HostName" Type="varchar" MaxLength="20" />
+          <Property Name="Agente" Type="varchar" MaxLength="100" />
+          <Property Name="Codigo" Type="varchar" MaxLength="10" />
+          <Property Name="Descripcion" Type="text" Nullable="false" />
+          <Property Name="Pila" Type="text" />
+          <Property Name="Excepcion" Type="text" />
+          <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Aplicacion">
+          <Key>
+            <PropertyRef Name="IdAplicacion" />
+          </Key>
+          <Property Name="IdAplicacion" Type="int" Nullable="false" />
+          <Property Name="Codigo" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="HabilitarBitacoraResp" Type="bit" Nullable="false" />
+          <Property Name="HabilitarBitacoraReq" Type="bit" Nullable="false" />
+          <Property Name="HabilitarBitacoraEx" Type="bit" Nullable="false" />
+          <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
+          <Property Name="IdUsuarioCreacion" Type="bigint" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'OpeCar.auditoria.Bitacora' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Bitacora">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+            <PropertyRef Name="IdAcceso" />
+            <PropertyRef Name="IdAplicacion" />
+            <PropertyRef Name="IdTipoBitacora" />
+            <PropertyRef Name="Descripcion" />
+            <PropertyRef Name="FechaCreacion" />
+          </Key>
+          <Property Name="IdBitacora" Type="bigint" />
+          <Property Name="IdUsuario" Type="bigint" Nullable="false" />
+          <Property Name="IdAcceso" Type="bigint" Nullable="false" />
+          <Property Name="IdAplicacion" Type="int" Nullable="false" />
+          <Property Name="IdFuncion" Type="int" />
+          <Property Name="IdTipoBitacora" Type="tinyint" Nullable="false" />
+          <Property Name="Codigo" Type="nvarchar" MaxLength="10" />
+          <Property Name="Descripcion" Type="text" Nullable="false" />
+          <Property Name="Pila" Type="text" />
+          <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Area">
+          <Key>
+            <PropertyRef Name="IdArea" />
+          </Key>
+          <Property Name="IdArea" Type="int" Nullable="false" />
+          <Property Name="IdTipoArea" Type="int" Nullable="false" />
+          <Property Name="IdUsuarioCreacion" Type="int" Nullable="false" />
+          <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AreaHist">
+          <Key>
+            <PropertyRef Name="IdArea" />
+            <PropertyRef Name="IdHistorial" />
+          </Key>
+          <Property Name="IdArea" Type="int" Nullable="false" />
+          <Property Name="IdHistorial" Type="int" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UrlImg" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IdUsuarioModificacion" Type="bigint" />
+          <Property Name="FechaModificacion" Type="datetime" />
+          <Property Name="IndicadorHabilitado" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Parametro">
+          <Key>
+            <PropertyRef Name="IdParametro" />
+          </Key>
+          <Property Name="IdParametro" Type="int" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Valor" Type="nvarchar" MaxLength="512" Nullable="false" />
+          <Property Name="IdUsuarioCreacion" Type="bigint" Nullable="false" />
+          <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Permiso">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+            <PropertyRef Name="IdRol" />
+            <PropertyRef Name="IdArea" />
+            <PropertyRef Name="IdHistorico" />
+          </Key>
+          <Property Name="IdUsuario" Type="bigint" Nullable="false" />
+          <Property Name="IdRol" Type="tinyint" Nullable="false" />
+          <Property Name="IdArea" Type="int" Nullable="false" />
+          <Property Name="IdHistorico" Type="int" Nullable="false" />
+          <Property Name="IdUsuarioCreacion" Type="int" Nullable="false" />
+          <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
+          <Property Name="FechaIniVig" Type="datetime" Nullable="false" />
+          <Property Name="FechaFinVig" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="IdRol" />
+          </Key>
+          <Property Name="IdRol" Type="tinyint" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="40" Nullable="false" />
+          <Property Name="Habilitado" Type="bit" Nullable="false" />
+          <Property Name="IdUsuarioCreacion" Type="int" Nullable="false" />
+          <Property Name="IdUsuarioModificacion" Type="int" />
+          <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
+          <Property Name="FechaModificacion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdUsuario" Type="bigint" Nullable="false" />
+          <Property Name="Usuario" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="NombreCompleto" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
+          <Property Name="IdUsuarioCreacion" Type="bigint" Nullable="false" />
+          <Property Name="IndicadorSistema" Type="bit" />
+        </EntityType>
+        <EntityType Name="UsuarioHist">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+            <PropertyRef Name="IdHistorico" />
+          </Key>
+          <Property Name="IdUsuario" Type="bigint" Nullable="false" />
+          <Property Name="IdHistorico" Type="int" Nullable="false" />
+          <Property Name="FechaIniVig" Type="datetime" Nullable="false" />
+          <Property Name="FechaFinVig" Type="datetime" />
+          <Property Name="Habilitado" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Aplicacion_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Aplicacion" Type="Self.Aplicacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Aplicacion">
+              <PropertyRef Name="IdUsuarioCreacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AreaHist_Area">
+          <End Role="Area" Type="Self.Area" Multiplicity="1" />
+          <End Role="AreaHist" Type="Self.AreaHist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Area">
+              <PropertyRef Name="IdArea" />
+            </Principal>
+            <Dependent Role="AreaHist">
+              <PropertyRef Name="IdArea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AreaHist_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="AreaHist" Type="Self.AreaHist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="AreaHist">
+              <PropertyRef Name="IdUsuarioModificacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Bitacora_Acceso">
+          <End Role="Acceso" Type="Self.Acceso" Multiplicity="1" />
+          <End Role="Bitacora" Type="Self.Bitacora" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Acceso">
+              <PropertyRef Name="IdAcceso" />
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Bitacora">
+              <PropertyRef Name="IdAcceso" />
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Bitacora_Aplicacion">
+          <End Role="Aplicacion" Type="Self.Aplicacion" Multiplicity="1" />
+          <End Role="Bitacora" Type="Self.Bitacora" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Aplicacion">
+              <PropertyRef Name="IdAplicacion" />
+            </Principal>
+            <Dependent Role="Bitacora">
+              <PropertyRef Name="IdAplicacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Parametro_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Parametro" Type="Self.Parametro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Parametro">
+              <PropertyRef Name="IdUsuarioCreacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Permiso_Area">
+          <End Role="Area" Type="Self.Area" Multiplicity="1" />
+          <End Role="Permiso" Type="Self.Permiso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Area">
+              <PropertyRef Name="IdArea" />
+            </Principal>
+            <Dependent Role="Permiso">
+              <PropertyRef Name="IdArea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Permiso_Rol">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
+          <End Role="Permiso" Type="Self.Permiso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="IdRol" />
+            </Principal>
+            <Dependent Role="Permiso">
+              <PropertyRef Name="IdRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Permiso_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Permiso" Type="Self.Permiso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Permiso">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Usuario1" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Usuario1">
+              <PropertyRef Name="IdUsuarioCreacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsuarioHist_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="UsuarioHist" Type="Self.UsuarioHist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="UsuarioHist">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsuarioLog_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Acceso" Type="Self.Acceso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Acceso">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OpeCarModelStoreContainer">
+          <EntitySet Name="Acceso" EntityType="Self.Acceso" Schema="auditoria" store:Type="Tables" />
+          <EntitySet Name="AccesoError" EntityType="Self.AccesoError" Schema="auditoria" store:Type="Tables" />
+          <EntitySet Name="Aplicacion" EntityType="Self.Aplicacion" Schema="auditoria" store:Type="Tables" />
+          <EntitySet Name="Area" EntityType="Self.Area" Schema="gDocumental" store:Type="Tables" />
+          <EntitySet Name="AreaHist" EntityType="Self.AreaHist" Schema="gDocumental" store:Type="Tables" />
+          <EntitySet Name="Parametro" EntityType="Self.Parametro" Schema="seguridad" store:Type="Tables" />
+          <EntitySet Name="Permiso" EntityType="Self.Permiso" Schema="seguridad" store:Type="Tables" />
+          <EntitySet Name="Rol" EntityType="Self.Rol" Schema="seguridad" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="seguridad" store:Type="Tables" />
+          <EntitySet Name="UsuarioHist" EntityType="Self.UsuarioHist" Schema="seguridad" store:Type="Tables" />
+          <EntitySet Name="Bitacora" EntityType="Self.Bitacora" store:Type="Tables" store:Schema="auditoria">
+            <DefiningQuery>SELECT 
+[Bitacora].[IdBitacora] AS [IdBitacora], 
+[Bitacora].[IdUsuario] AS [IdUsuario], 
+[Bitacora].[IdAcceso] AS [IdAcceso], 
+[Bitacora].[IdAplicacion] AS [IdAplicacion], 
+[Bitacora].[IdFuncion] AS [IdFuncion], 
+[Bitacora].[IdTipoBitacora] AS [IdTipoBitacora], 
+[Bitacora].[Codigo] AS [Codigo], 
+[Bitacora].[Descripcion] AS [Descripcion], 
+[Bitacora].[Pila] AS [Pila], 
+[Bitacora].[FechaCreacion] AS [FechaCreacion]
+FROM [auditoria].[Bitacora] AS [Bitacora]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Aplicacion_Usuario" Association="Self.FK_Aplicacion_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Aplicacion" EntitySet="Aplicacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AreaHist_Area" Association="Self.FK_AreaHist_Area">
+            <End Role="Area" EntitySet="Area" />
+            <End Role="AreaHist" EntitySet="AreaHist" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AreaHist_Usuario" Association="Self.FK_AreaHist_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="AreaHist" EntitySet="AreaHist" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Bitacora_Acceso" Association="Self.FK_Bitacora_Acceso">
+            <End Role="Acceso" EntitySet="Acceso" />
+            <End Role="Bitacora" EntitySet="Bitacora" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Bitacora_Aplicacion" Association="Self.FK_Bitacora_Aplicacion">
+            <End Role="Aplicacion" EntitySet="Aplicacion" />
+            <End Role="Bitacora" EntitySet="Bitacora" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Parametro_Usuario" Association="Self.FK_Parametro_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Parametro" EntitySet="Parametro" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Permiso_Area" Association="Self.FK_Permiso_Area">
+            <End Role="Area" EntitySet="Area" />
+            <End Role="Permiso" EntitySet="Permiso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Permiso_Rol" Association="Self.FK_Permiso_Rol">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="Permiso" EntitySet="Permiso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Permiso_Usuario" Association="Self.FK_Permiso_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Permiso" EntitySet="Permiso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Usuario" Association="Self.FK_Usuario_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Usuario1" EntitySet="Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsuarioHist_Usuario" Association="Self.FK_UsuarioHist_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="UsuarioHist" EntitySet="UsuarioHist" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsuarioLog_Usuario" Association="Self.FK_UsuarioLog_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Acceso" EntitySet="Acceso" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OpeCarModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Acceso">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+            <PropertyRef Name="IdAcceso" />
+          </Key>
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
+          <Property Name="IdAcceso" Type="Int64" Nullable="false" />
+          <Property Name="HostAdress" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="HostName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Agente" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Token" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TokenHabilitado" Type="Boolean" Nullable="false" />
+          <Property Name="TokenFechaExp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Bitacora" Relationship="Self.FK_Bitacora_Acceso" FromRole="Acceso" ToRole="Bitacora" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_UsuarioLog_Usuario" FromRole="Acceso" ToRole="Usuario" />
+          <Property Name="NombreUsuario" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Aplicacion">
+          <Key>
+            <PropertyRef Name="IdAplicacion" />
+          </Key>
+          <Property Name="IdAplicacion" Type="Int32" Nullable="false" />
+          <Property Name="Codigo" Type="String" MaxLength="6" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="HabilitarBitacoraResp" Type="Boolean" Nullable="false" />
+          <Property Name="HabilitarBitacoraReq" Type="Boolean" Nullable="false" />
+          <Property Name="HabilitarBitacoraEx" Type="Boolean" Nullable="false" />
+          <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IdUsuarioCreacion" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_Aplicacion_Usuario" FromRole="Aplicacion" ToRole="Usuario" />
+          <NavigationProperty Name="Bitacora" Relationship="Self.FK_Bitacora_Aplicacion" FromRole="Aplicacion" ToRole="Bitacora" />
+        </EntityType>
+        <EntityType Name="Permiso">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+            <PropertyRef Name="IdRol" />
+            <PropertyRef Name="IdArea" />
+            <PropertyRef Name="IdHistorico" />
+          </Key>
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
+          <Property Name="IdRol" Type="Byte" Nullable="false" />
+          <Property Name="IdArea" Type="Int32" Nullable="false" />
+          <Property Name="IdHistorico" Type="Int32" Nullable="false" />
+          <Property Name="IdUsuarioCreacion" Type="Int32" Nullable="false" />
+          <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FechaIniVig" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FechaFinVig" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Rol" Relationship="Self.FK_Permiso_Rol" FromRole="Permiso" ToRole="Rol" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_Permiso_Usuario" FromRole="Permiso" ToRole="Usuario" />
+          <NavigationProperty Name="Area" Relationship="OpeCarModel.FK_Permiso_Area" FromRole="Permiso" ToRole="Area" />
+        </EntityType>
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="IdRol" />
+          </Key>
+          <Property Name="IdRol" Type="Byte" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Habilitado" Type="Boolean" Nullable="false" />
+          <Property Name="IdUsuarioCreacion" Type="Int32" Nullable="false" />
+          <Property Name="IdUsuarioModificacion" Type="Int32" />
+          <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Permiso" Relationship="Self.FK_Permiso_Rol" FromRole="Rol" ToRole="Permiso" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
+          <Property Name="Usuario1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NombreCompleto" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IdUsuarioCreacion" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Acceso" Relationship="Self.FK_UsuarioLog_Usuario" FromRole="Usuario" ToRole="Acceso" />
+          <NavigationProperty Name="Aplicacion" Relationship="Self.FK_Aplicacion_Usuario" FromRole="Usuario" ToRole="Aplicacion" />
+          <NavigationProperty Name="Permiso" Relationship="Self.FK_Permiso_Usuario" FromRole="Usuario" ToRole="Permiso" />
+          <NavigationProperty Name="Usuario11" Relationship="Self.FK_Usuario_Usuario" FromRole="Usuario" ToRole="Usuario1" />
+          <NavigationProperty Name="Usuario2" Relationship="Self.FK_Usuario_Usuario" FromRole="Usuario1" ToRole="Usuario" />
+          <NavigationProperty Name="UsuarioHist" Relationship="Self.FK_UsuarioHist_Usuario" FromRole="Usuario" ToRole="UsuarioHist" />
+          <Property Name="IndicadorSistema" Type="Boolean" />
+          <NavigationProperty Name="Parametro" Relationship="OpeCarModel.FK_Parametro_Usuario" FromRole="Usuario" ToRole="Parametro" />
+          <NavigationProperty Name="AreaHist" Relationship="OpeCarModel.FK_AreaHist_Usuario" FromRole="Usuario" ToRole="AreaHist" />
+        </EntityType>
+        <EntityType Name="UsuarioHist">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+            <PropertyRef Name="IdHistorico" />
+          </Key>
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
+          <Property Name="IdHistorico" Type="Int32" Nullable="false" />
+          <Property Name="FechaIniVig" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FechaFinVig" Type="DateTime" Precision="3" />
+          <Property Name="Habilitado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_UsuarioHist_Usuario" FromRole="UsuarioHist" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Bitacora">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+            <PropertyRef Name="IdAcceso" />
+            <PropertyRef Name="IdAplicacion" />
+            <PropertyRef Name="IdTipoBitacora" />
+            <PropertyRef Name="Descripcion" />
+            <PropertyRef Name="FechaCreacion" />
+          </Key>
+          <Property Name="IdBitacora" Type="Int64" />
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
+          <Property Name="IdAcceso" Type="Int64" Nullable="false" />
+          <Property Name="IdAplicacion" Type="Int32" Nullable="false" />
+          <Property Name="IdFuncion" Type="Int32" />
+          <Property Name="IdTipoBitacora" Type="Byte" Nullable="false" />
+          <Property Name="Codigo" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Pila" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Acceso" Relationship="Self.FK_Bitacora_Acceso" FromRole="Bitacora" ToRole="Acceso" />
+          <NavigationProperty Name="Aplicacion" Relationship="Self.FK_Bitacora_Aplicacion" FromRole="Bitacora" ToRole="Aplicacion" />
+        </EntityType>
+        <Association Name="FK_Bitacora_Acceso">
+          <End Role="Acceso" Type="Self.Acceso" Multiplicity="1" />
+          <End Role="Bitacora" Type="Self.Bitacora" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Acceso">
+              <PropertyRef Name="IdAcceso" />
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Bitacora">
+              <PropertyRef Name="IdAcceso" />
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsuarioLog_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Acceso" Type="Self.Acceso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Acceso">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Aplicacion_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Aplicacion" Type="Self.Aplicacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Aplicacion">
+              <PropertyRef Name="IdUsuarioCreacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Bitacora_Aplicacion">
+          <End Role="Aplicacion" Type="Self.Aplicacion" Multiplicity="1" />
+          <End Role="Bitacora" Type="Self.Bitacora" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Aplicacion">
+              <PropertyRef Name="IdAplicacion" />
+            </Principal>
+            <Dependent Role="Bitacora">
+              <PropertyRef Name="IdAplicacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Permiso_Rol">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
+          <End Role="Permiso" Type="Self.Permiso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="IdRol" />
+            </Principal>
+            <Dependent Role="Permiso">
+              <PropertyRef Name="IdRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Permiso_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Permiso" Type="Self.Permiso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Permiso">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Usuario1" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Usuario1">
+              <PropertyRef Name="IdUsuarioCreacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsuarioHist_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="UsuarioHist" Type="Self.UsuarioHist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="UsuarioHist">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OpeCarEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Acceso" EntityType="Self.Acceso" />
+          <EntitySet Name="Aplicacion" EntityType="Self.Aplicacion" />
+          <EntitySet Name="Permiso" EntityType="Self.Permiso" />
+          <EntitySet Name="Rol" EntityType="Self.Rol" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+          <EntitySet Name="UsuarioHist" EntityType="Self.UsuarioHist" />
+          <EntitySet Name="Bitacora" EntityType="Self.Bitacora" />
+          <AssociationSet Name="FK_Bitacora_Acceso" Association="Self.FK_Bitacora_Acceso">
+            <End Role="Acceso" EntitySet="Acceso" />
+            <End Role="Bitacora" EntitySet="Bitacora" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsuarioLog_Usuario" Association="Self.FK_UsuarioLog_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Acceso" EntitySet="Acceso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Aplicacion_Usuario" Association="Self.FK_Aplicacion_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Aplicacion" EntitySet="Aplicacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Bitacora_Aplicacion" Association="Self.FK_Bitacora_Aplicacion">
+            <End Role="Aplicacion" EntitySet="Aplicacion" />
+            <End Role="Bitacora" EntitySet="Bitacora" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Permiso_Rol" Association="Self.FK_Permiso_Rol">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="Permiso" EntitySet="Permiso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Permiso_Usuario" Association="Self.FK_Permiso_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Permiso" EntitySet="Permiso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Usuario" Association="Self.FK_Usuario_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Usuario1" EntitySet="Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsuarioHist_Usuario" Association="Self.FK_UsuarioHist_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="UsuarioHist" EntitySet="UsuarioHist" />
+          </AssociationSet>
+          <EntitySet Name="Parametro" EntityType="OpeCarModel.Parametro" />
+          <AssociationSet Name="FK_Parametro_Usuario" Association="OpeCarModel.FK_Parametro_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Parametro" EntitySet="Parametro" />
+          </AssociationSet>
+          <EntitySet Name="Area" EntityType="OpeCarModel.Area" />
+          <EntitySet Name="AreaHist" EntityType="OpeCarModel.AreaHist" />
+          <AssociationSet Name="FK_AreaHist_Area" Association="OpeCarModel.FK_AreaHist_Area">
+            <End Role="Area" EntitySet="Area" />
+            <End Role="AreaHist" EntitySet="AreaHist" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Permiso_Area" Association="OpeCarModel.FK_Permiso_Area">
+            <End Role="Area" EntitySet="Area" />
+            <End Role="Permiso" EntitySet="Permiso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AreaHist_Usuario" Association="OpeCarModel.FK_AreaHist_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="AreaHist" EntitySet="AreaHist" />
+          </AssociationSet>
+          <EntitySet Name="AccesoError" EntityType="OpeCarModel.AccesoError" />
+        </EntityContainer>
+        <EntityType Name="Parametro">
+          <Key>
+            <PropertyRef Name="IdParametro" />
+          </Key>
+          <Property Name="IdParametro" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Valor" Type="String" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="IdUsuarioCreacion" Type="Int32" Nullable="false" />
+          <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Usuario" Relationship="OpeCarModel.FK_Parametro_Usuario" FromRole="Parametro" ToRole="Usuario" />
+        </EntityType>
+        <Association Name="FK_Parametro_Usuario">
+          <End Type="OpeCarModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="OpeCarModel.Parametro" Role="Parametro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Parametro">
+              <PropertyRef Name="IdUsuarioCreacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Area">
+          <Key>
+            <PropertyRef Name="IdArea" />
+          </Key>
+          <Property Name="IdArea" Type="Int32" Nullable="false" />
+          <Property Name="IdTipoArea" Type="Int32" Nullable="false" />
+          <Property Name="IdUsuarioCreacion" Type="Int32" Nullable="false" />
+          <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="AreaHist" Relationship="OpeCarModel.FK_AreaHist_Area" FromRole="Area" ToRole="AreaHist" />
+          <NavigationProperty Name="Permiso" Relationship="OpeCarModel.FK_Permiso_Area" FromRole="Area" ToRole="Permiso" />
+        </EntityType>
+        <EntityType Name="AreaHist">
+          <Key>
+            <PropertyRef Name="IdArea" />
+            <PropertyRef Name="IdHistorial" />
+          </Key>
+          <Property Name="IdArea" Type="Int32" Nullable="false" />
+          <Property Name="IdHistorial" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UrlImg" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdUsuarioModificacion" Type="Int32" />
+          <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
+          <Property Name="IndicadorHabilitado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Area" Relationship="OpeCarModel.FK_AreaHist_Area" FromRole="AreaHist" ToRole="Area" />
+          <NavigationProperty Name="Usuario" Relationship="OpeCarModel.FK_AreaHist_Usuario" FromRole="AreaHist" ToRole="Usuario" />
+        </EntityType>
+        <Association Name="FK_AreaHist_Area">
+          <End Type="OpeCarModel.Area" Role="Area" Multiplicity="1" />
+          <End Type="OpeCarModel.AreaHist" Role="AreaHist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Area">
+              <PropertyRef Name="IdArea" />
+            </Principal>
+            <Dependent Role="AreaHist">
+              <PropertyRef Name="IdArea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Permiso_Area">
+          <End Type="OpeCarModel.Area" Role="Area" Multiplicity="1" />
+          <End Type="OpeCarModel.Permiso" Role="Permiso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Area">
+              <PropertyRef Name="IdArea" />
+            </Principal>
+            <Dependent Role="Permiso">
+              <PropertyRef Name="IdArea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AreaHist_Usuario">
+          <End Type="OpeCarModel.Usuario" Role="Usuario" Multiplicity="0..1" />
+          <End Type="OpeCarModel.AreaHist" Role="AreaHist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="AreaHist">
+              <PropertyRef Name="IdUsuarioModificacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="AccesoError">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="26" FixedLength="true" Unicode="false" />
+          <Property Name="Usuario" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="HostAdress" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="HostName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Agente" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Codigo" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Pila" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Excepcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="OpeCarModelStoreContainer" CdmEntityContainer="OpeCarEntities">
+          <EntitySetMapping Name="Acceso">
+            <EntityTypeMapping TypeName="OpeCarModel.Acceso">
+              <MappingFragment StoreEntitySet="Acceso">
+                <ScalarProperty Name="NombreUsuario" ColumnName="NombreUsuario" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="IdAcceso" ColumnName="IdAcceso" />
+                <ScalarProperty Name="HostAdress" ColumnName="HostAdress" />
+                <ScalarProperty Name="HostName" ColumnName="HostName" />
+                <ScalarProperty Name="Agente" ColumnName="Agente" />
+                <ScalarProperty Name="Token" ColumnName="Token" />
+                <ScalarProperty Name="TokenHabilitado" ColumnName="TokenHabilitado" />
+                <ScalarProperty Name="TokenFechaExp" ColumnName="TokenFechaExp" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Aplicacion">
+            <EntityTypeMapping TypeName="OpeCarModel.Aplicacion">
+              <MappingFragment StoreEntitySet="Aplicacion">
+                <ScalarProperty Name="IdAplicacion" ColumnName="IdAplicacion" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="HabilitarBitacoraResp" ColumnName="HabilitarBitacoraResp" />
+                <ScalarProperty Name="HabilitarBitacoraReq" ColumnName="HabilitarBitacoraReq" />
+                <ScalarProperty Name="HabilitarBitacoraEx" ColumnName="HabilitarBitacoraEx" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="IdUsuarioCreacion" ColumnName="IdUsuarioCreacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Permiso">
+            <EntityTypeMapping TypeName="OpeCarModel.Permiso">
+              <MappingFragment StoreEntitySet="Permiso">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="IdArea" ColumnName="IdArea" />
+                <ScalarProperty Name="IdHistorico" ColumnName="IdHistorico" />
+                <ScalarProperty Name="IdUsuarioCreacion" ColumnName="IdUsuarioCreacion" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="FechaIniVig" ColumnName="FechaIniVig" />
+                <ScalarProperty Name="FechaFinVig" ColumnName="FechaFinVig" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rol">
+            <EntityTypeMapping TypeName="OpeCarModel.Rol">
+              <MappingFragment StoreEntitySet="Rol">
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Habilitado" ColumnName="Habilitado" />
+                <ScalarProperty Name="IdUsuarioCreacion" ColumnName="IdUsuarioCreacion" />
+                <ScalarProperty Name="IdUsuarioModificacion" ColumnName="IdUsuarioModificacion" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="OpeCarModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="IndicadorSistema" ColumnName="IndicadorSistema" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Usuario1" ColumnName="Usuario" />
+                <ScalarProperty Name="NombreCompleto" ColumnName="NombreCompleto" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="IdUsuarioCreacion" ColumnName="IdUsuarioCreacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UsuarioHist">
+            <EntityTypeMapping TypeName="OpeCarModel.UsuarioHist">
+              <MappingFragment StoreEntitySet="UsuarioHist">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="IdHistorico" ColumnName="IdHistorico" />
+                <ScalarProperty Name="FechaIniVig" ColumnName="FechaIniVig" />
+                <ScalarProperty Name="FechaFinVig" ColumnName="FechaFinVig" />
+                <ScalarProperty Name="Habilitado" ColumnName="Habilitado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bitacora">
+            <EntityTypeMapping TypeName="OpeCarModel.Bitacora">
+              <MappingFragment StoreEntitySet="Bitacora">
+                <ScalarProperty Name="IdBitacora" ColumnName="IdBitacora" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="IdAcceso" ColumnName="IdAcceso" />
+                <ScalarProperty Name="IdAplicacion" ColumnName="IdAplicacion" />
+                <ScalarProperty Name="IdFuncion" ColumnName="IdFuncion" />
+                <ScalarProperty Name="IdTipoBitacora" ColumnName="IdTipoBitacora" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Pila" ColumnName="Pila" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Parametro">
+            <EntityTypeMapping TypeName="OpeCarModel.Parametro">
+              <MappingFragment StoreEntitySet="Parametro">
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="IdUsuarioCreacion" ColumnName="IdUsuarioCreacion" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdParametro" ColumnName="IdParametro" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Area">
+            <EntityTypeMapping TypeName="OpeCarModel.Area">
+              <MappingFragment StoreEntitySet="Area">
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="IdUsuarioCreacion" ColumnName="IdUsuarioCreacion" />
+                <ScalarProperty Name="IdTipoArea" ColumnName="IdTipoArea" />
+                <ScalarProperty Name="IdArea" ColumnName="IdArea" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AreaHist">
+            <EntityTypeMapping TypeName="OpeCarModel.AreaHist">
+              <MappingFragment StoreEntitySet="AreaHist">
+                <ScalarProperty Name="IndicadorHabilitado" ColumnName="IndicadorHabilitado" />
+                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+                <ScalarProperty Name="IdUsuarioModificacion" ColumnName="IdUsuarioModificacion" />
+                <ScalarProperty Name="UrlImg" ColumnName="UrlImg" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdHistorial" ColumnName="IdHistorial" />
+                <ScalarProperty Name="IdArea" ColumnName="IdArea" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AccesoError">
+            <EntityTypeMapping TypeName="OpeCarModel.AccesoError">
+              <MappingFragment StoreEntitySet="AccesoError">
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="Excepcion" ColumnName="Excepcion" />
+                <ScalarProperty Name="Pila" ColumnName="Pila" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Agente" ColumnName="Agente" />
+                <ScalarProperty Name="HostName" ColumnName="HostName" />
+                <ScalarProperty Name="HostAdress" ColumnName="HostAdress" />
+                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram DiagramId="d4391f6635324444a3a8a34914727842" Name="Diagram1">
+        <EntityTypeShape EntityType="OpeCarModel.Acceso" Width="1.5" PointX="3" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OpeCarModel.Aplicacion" Width="1.5" PointX="3" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="OpeCarModel.Permiso" Width="1.5" PointX="6" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="OpeCarModel.Rol" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OpeCarModel.Usuario" Width="1.5" PointX="0.75" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="OpeCarModel.UsuarioHist" Width="1.5" PointX="3" PointY="15.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="OpeCarModel.Bitacora" Width="1.5" PointX="5.25" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="OpeCarModel.Parametro" Width="1.5" PointX="3" PointY="18.75" IsExpanded="true" />
+        <AssociationConnector Association="OpeCarModel.FK_Bitacora_Acceso" ManuallyRouted="false" />
+        <AssociationConnector Association="OpeCarModel.FK_UsuarioLog_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="OpeCarModel.FK_Aplicacion_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="OpeCarModel.FK_Bitacora_Aplicacion" ManuallyRouted="false" />
+        <AssociationConnector Association="OpeCarModel.FK_Permiso_Rol" ManuallyRouted="false" />
+        <AssociationConnector Association="OpeCarModel.FK_Permiso_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="OpeCarModel.FK_Usuario_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="OpeCarModel.FK_UsuarioHist_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="OpeCarModel.FK_Parametro_Usuario" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="OpeCarModel.Area" Width="1.5" PointX="3.75" PointY="13" />
+        <EntityTypeShape EntityType="OpeCarModel.AreaHist" Width="1.5" PointX="9" PointY="10.875" />
+        <AssociationConnector Association="OpeCarModel.FK_AreaHist_Area" />
+        <AssociationConnector Association="OpeCarModel.FK_Permiso_Area" />
+        <AssociationConnector Association="OpeCarModel.FK_AreaHist_Usuario" />
+        <EntityTypeShape EntityType="OpeCarModel.AccesoError" Width="1.5" PointX="0.75" PointY="0.75" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
