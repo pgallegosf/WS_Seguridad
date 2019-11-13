@@ -1,0 +1,116 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{2454FC0C-DAE7-4688-9578-F7969122A887}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Components", "Components", "{A5945D77-6834-4A3C-98D7-DAE27603D22B}"
+	ProjectSection(SolutionItems) = preProject
+		Components\EntityFramework.dll = Components\EntityFramework.dll
+		Components\EntityFramework.SqlServer.dll = Components\EntityFramework.SqlServer.dll
+		Components\Lp.Suscriptor.Auditoria.Lib.dll = Components\Lp.Suscriptor.Auditoria.Lib.dll
+		Components\LPG.DataAccess.Comun.dll = Components\LPG.DataAccess.Comun.dll
+		Components\System.IdentityModel.Tokens.Jwt.dll = Components\System.IdentityModel.Tokens.Jwt.dll
+		Components\System.Web.Http.dll = Components\System.Web.Http.dll
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{4272D089-E46F-4489-8F8A-4AFF51BFB81D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{A7DFF578-DA7C-441C-AA9B-6C580963ED67}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infraestructure", "Infraestructure", "{6A1DA354-D241-4AD5-A7EC-804AF16F9A9D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Contracts", "Contracts", "{AED9389A-6996-4BFE-BF48-AA6B71540FEF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Entities", "Entities", "{CB416D39-2E4D-456C-9FD8-C8DD4C35E762}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{6D01F265-4DA6-4094-BD96-984EA2C089B7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Agent", "Agent", "{3AA9B4A7-89E3-4BDD-8C28-5F1EE4F415B0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repositories", "Repositories", "{C3954683-EA73-4281-BE2C-B487874C6669}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Entities", "Source\Domain.Entities\Domain.Entities.csproj", "{E2ACEE56-A3B1-44C7-B909-A691D3D821E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Services", "Source\Domain.Services\Domain.Services.csproj", "{AF20AAC0-9D03-4C73-B532-B11008E4D49E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository.ActiveDirectory.Contracts", "Source\Repository.ActiveDirectory.Contracts\Repository.ActiveDirectory.Contracts.csproj", "{FC446716-B9A1-4B58-BA38-6116F5CBBC5E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Suscriptor.Seguridad", "Source\Suscriptor.Seguridad\Suscriptor.Seguridad.csproj", "{69C29038-9722-46DC-AD00-0196B64F03AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository.ActiveDirectory", "Source\Repository.ActiveDirectory\Repository.ActiveDirectory.csproj", "{1C9894BB-CEE3-4890-ADE7-8151510C805F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Services.Contracts", "Source\Domain.Services.Contracts\Domain.Services.Contracts.csproj", "{CA482BDE-07FE-4E99-8263-64C13C36E9DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository.Seguridad", "Source\Repository.Seguridad\Repository.Seguridad.csproj", "{4543D9A7-EE3E-4B4E-96C0-87EF514407A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Suscriptor.Seguridad.Lib", "Source\Suscriptor.Seguridad.Lib\Suscriptor.Seguridad.Lib.csproj", "{31602F83-4AAF-43BE-B664-6CC2BBC638FA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Transvesal", "Transvesal", "{EB5AB7BE-279F-4D99-9B60-3B2DB50644BA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E2ACEE56-A3B1-44C7-B909-A691D3D821E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2ACEE56-A3B1-44C7-B909-A691D3D821E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2ACEE56-A3B1-44C7-B909-A691D3D821E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2ACEE56-A3B1-44C7-B909-A691D3D821E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF20AAC0-9D03-4C73-B532-B11008E4D49E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF20AAC0-9D03-4C73-B532-B11008E4D49E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF20AAC0-9D03-4C73-B532-B11008E4D49E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF20AAC0-9D03-4C73-B532-B11008E4D49E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC446716-B9A1-4B58-BA38-6116F5CBBC5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC446716-B9A1-4B58-BA38-6116F5CBBC5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC446716-B9A1-4B58-BA38-6116F5CBBC5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC446716-B9A1-4B58-BA38-6116F5CBBC5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69C29038-9722-46DC-AD00-0196B64F03AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69C29038-9722-46DC-AD00-0196B64F03AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69C29038-9722-46DC-AD00-0196B64F03AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69C29038-9722-46DC-AD00-0196B64F03AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C9894BB-CEE3-4890-ADE7-8151510C805F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C9894BB-CEE3-4890-ADE7-8151510C805F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C9894BB-CEE3-4890-ADE7-8151510C805F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C9894BB-CEE3-4890-ADE7-8151510C805F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA482BDE-07FE-4E99-8263-64C13C36E9DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA482BDE-07FE-4E99-8263-64C13C36E9DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA482BDE-07FE-4E99-8263-64C13C36E9DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA482BDE-07FE-4E99-8263-64C13C36E9DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4543D9A7-EE3E-4B4E-96C0-87EF514407A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4543D9A7-EE3E-4B4E-96C0-87EF514407A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4543D9A7-EE3E-4B4E-96C0-87EF514407A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4543D9A7-EE3E-4B4E-96C0-87EF514407A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31602F83-4AAF-43BE-B664-6CC2BBC638FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31602F83-4AAF-43BE-B664-6CC2BBC638FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31602F83-4AAF-43BE-B664-6CC2BBC638FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31602F83-4AAF-43BE-B664-6CC2BBC638FA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4272D089-E46F-4489-8F8A-4AFF51BFB81D} = {2454FC0C-DAE7-4688-9578-F7969122A887}
+		{A7DFF578-DA7C-441C-AA9B-6C580963ED67} = {2454FC0C-DAE7-4688-9578-F7969122A887}
+		{6A1DA354-D241-4AD5-A7EC-804AF16F9A9D} = {2454FC0C-DAE7-4688-9578-F7969122A887}
+		{AED9389A-6996-4BFE-BF48-AA6B71540FEF} = {A7DFF578-DA7C-441C-AA9B-6C580963ED67}
+		{CB416D39-2E4D-456C-9FD8-C8DD4C35E762} = {A7DFF578-DA7C-441C-AA9B-6C580963ED67}
+		{6D01F265-4DA6-4094-BD96-984EA2C089B7} = {A7DFF578-DA7C-441C-AA9B-6C580963ED67}
+		{3AA9B4A7-89E3-4BDD-8C28-5F1EE4F415B0} = {6A1DA354-D241-4AD5-A7EC-804AF16F9A9D}
+		{C3954683-EA73-4281-BE2C-B487874C6669} = {6A1DA354-D241-4AD5-A7EC-804AF16F9A9D}
+		{E2ACEE56-A3B1-44C7-B909-A691D3D821E2} = {CB416D39-2E4D-456C-9FD8-C8DD4C35E762}
+		{AF20AAC0-9D03-4C73-B532-B11008E4D49E} = {6D01F265-4DA6-4094-BD96-984EA2C089B7}
+		{FC446716-B9A1-4B58-BA38-6116F5CBBC5E} = {AED9389A-6996-4BFE-BF48-AA6B71540FEF}
+		{69C29038-9722-46DC-AD00-0196B64F03AE} = {4272D089-E46F-4489-8F8A-4AFF51BFB81D}
+		{1C9894BB-CEE3-4890-ADE7-8151510C805F} = {C3954683-EA73-4281-BE2C-B487874C6669}
+		{CA482BDE-07FE-4E99-8263-64C13C36E9DE} = {AED9389A-6996-4BFE-BF48-AA6B71540FEF}
+		{4543D9A7-EE3E-4B4E-96C0-87EF514407A7} = {C3954683-EA73-4281-BE2C-B487874C6669}
+		{31602F83-4AAF-43BE-B664-6CC2BBC638FA} = {4272D089-E46F-4489-8F8A-4AFF51BFB81D}
+		{EB5AB7BE-279F-4D99-9B60-3B2DB50644BA} = {6A1DA354-D241-4AD5-A7EC-804AF16F9A9D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
+	EndGlobalSection
+EndGlobal

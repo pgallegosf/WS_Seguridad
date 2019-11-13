@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4543D9A7-EE3E-4B4E-96C0-87EF514407A7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Repository.Seguridad</RootNamespace>
+    <AssemblyName>Repository.Seguridad</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\Components\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Acceso.cs">
+      <DependentUpon>Seguridad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AccesoError.cs">
+      <DependentUpon>Seguridad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Aplicacion.cs">
+      <DependentUpon>Seguridad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Area.cs">
+      <DependentUpon>Seguridad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AreaHist.cs">
+      <DependentUpon>Seguridad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Bitacora.cs">
+      <DependentUpon>Seguridad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAccesoError.cs" />
+    <Compile Include="DLog.cs" />
+    <Compile Include="DPermiso.cs" />
+    <Compile Include="DRol.cs" />
+    <Compile Include="Mapper\NAccessErrorMapper.cs" />
+    <Compile Include="Mapper\NRolMapper.cs" />
+    <Compile Include="Mapper\NUserMapper.cs" />
+    <Compile Include="Parametro.cs">
+      <DependentUpon>Seguridad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Permiso.cs">
+      <DependentUpon>Seguridad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DParametro.cs" />
+    <Compile Include="DToken.cs" />
+    <Compile Include="DUser.cs" />
+    <Compile Include="Rol.cs">
+      <DependentUpon>Seguridad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Seguridad.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Seguridad.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Seguridad.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Seguridad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Seguridad.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Seguridad.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.cs">
+      <DependentUpon>Seguridad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioHist.cs">
+      <DependentUpon>Seguridad.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+    <EntityDeploy Include="Seguridad.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Seguridad.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Seguridad.edmx.diagram">
+      <DependentUpon>Seguridad.edmx</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain.Entities\Domain.Entities.csproj">
+      <Project>{e2acee56-a3b1-44c7-b909-a691d3d821e2}</Project>
+      <Name>Domain.Entities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Seguridad.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Seguridad.edmx</DependentUpon>
+      <LastGenOutput>Seguridad.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Seguridad.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Seguridad.edmx</DependentUpon>
+      <LastGenOutput>Seguridad.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
