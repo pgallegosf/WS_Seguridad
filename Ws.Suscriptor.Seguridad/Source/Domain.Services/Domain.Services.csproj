@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AF20AAC0-9D03-4C73-B532-B11008E4D49E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Domain.Services</RootNamespace>
+    <AssemblyName>Domain.Services</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.IdentityModel.Tokens">
+      <HintPath>..\Suscriptor.Seguridad\Bin\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.IdentityModel.Tokens.Jwt">
+      <HintPath>..\..\Components\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Config\ActiveDirectoryCollection.cs" />
+    <Compile Include="Config\ActiveDirectoryConfigurationSection.cs" />
+    <Compile Include="Config\ServiceElement.cs" />
+    <Compile Include="NAccesoError.cs" />
+    <Compile Include="NLog.cs" />
+    <Compile Include="NRol.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="NActiveDirectory.cs" />
+    <Compile Include="NToken.cs" />
+    <Compile Include="NUser.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Repository.ActiveDirectory.Contracts\Repository.ActiveDirectory.Contracts.csproj">
+      <Project>{fc446716-b9a1-4b58-ba38-6116f5cbbc5e}</Project>
+      <Name>Repository.ActiveDirectory.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Entities\Domain.Entities.csproj">
+      <Project>{e2acee56-a3b1-44c7-b909-a691d3d821e2}</Project>
+      <Name>Domain.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Services.Contracts\Domain.Services.Contracts.csproj">
+      <Project>{ca482bde-07fe-4e99-8263-64c13c36e9de}</Project>
+      <Name>Domain.Services.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Repository.ActiveDirectory\Repository.ActiveDirectory.csproj">
+      <Project>{1c9894bb-cee3-4890-ade7-8151510c805f}</Project>
+      <Name>Repository.ActiveDirectory</Name>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Repository.Seguridad\Repository.Seguridad.csproj">
+      <Project>{4543d9a7-ee3e-4b4e-96c0-87ef514407a7}</Project>
+      <Name>Repository.Seguridad</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ActiveDirectoryService.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
