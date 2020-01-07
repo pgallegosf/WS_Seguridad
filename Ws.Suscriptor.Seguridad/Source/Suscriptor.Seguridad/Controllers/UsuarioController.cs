@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Domain.Entities;
 using Domain.Services.Contracts;
 using Lp.Suscriptor.Seguridad.Models;
 using Domain.Entities.DTO;
@@ -90,6 +91,39 @@ namespace Lp.Suscriptor.Seguridad.Controllers
             }
         }
 
+        [HttpGet()]
+        [ActionName("ListarPermisoDetalle")]
+        [Route("api/Usuario/ListarPermisoDetalle/{idUsuario}/{idRol}")]
+        public HttpResponseMessage ListarPermisoDetalle(int idUsuario,int idRol)
+        {
+            try
+            {
+                var item = _objusuario.ListarPermisoDetalle(idUsuario, idRol);
+
+                return item == null ? Request.CreateErrorResponse(HttpStatusCode.NoContent, "No se encontraron datos.") : Request.CreateResponse(HttpStatusCode.Accepted, item);
+            }
+            catch (Exception ex)
+            {
+                var response = new ExceptionResponse { Mensaje = ex.Message, Pila = ex.StackTrace };
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [HttpPost()]
+        [ActionName("RegistrarPermisoDetalle")]
+        public HttpResponseMessage RegistrarPermisoDetalle(EPermisoDetalle request)
+        {
+            try
+            {
+                var response = _objusuario.RegistrarPermisoDetalle(request);
+                return Request.CreateResponse(HttpStatusCode.Accepted, response);
+            }
+            catch (Exception ex)
+            {
+                var response = new ExceptionResponse { Mensaje = ex.Message, Pila = ex.StackTrace };
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
 
         [HttpPost()]
         [ActionName("GetUsers")]

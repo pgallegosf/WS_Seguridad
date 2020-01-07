@@ -12,20 +12,16 @@ namespace Repository.Seguridad
     using System;
     using System.Collections.Generic;
     
-    public partial class Permiso
+    public partial class SubAreaHist
     {
-        public int IdUsuario { get; set; }
-        public byte IdRol { get; set; }
-        public int IdArea { get; set; }
-        public int IdHistorico { get; set; }
-        public int IdUsuarioCreacion { get; set; }
-        public System.DateTime FechaCreacion { get; set; }
-        public System.DateTime FechaIniVig { get; set; }
-        public Nullable<System.DateTime> FechaFinVig { get; set; }
         public int IdSubArea { get; set; }
+        public int IdHistorial { get; set; }
+        public string Descripcion { get; set; }
+        public bool EsUltimo { get; set; }
+        public Nullable<System.DateTime> FechaModificacion { get; set; }
+        public bool IndicadorHabilitado { get; set; }
     
-        public virtual Rol Rol { get; set; }
+        public virtual SubArea SubArea { get; set; }
         public virtual Usuario Usuario { get; set; }
-        public virtual Area Area { get; set; }
     }
 }

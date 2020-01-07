@@ -13,6 +13,8 @@ namespace Lp.Suscriptor.Seguridad.Auditoria
                 {"Usuario.Listar", 3},
                 {"Usuario.Obtener", 4},
                 {"Usuario.ListarPermiso", 5},
+                {"Usuario.ListarPermisoDetalle", 13},
+                {"Usuario.RegistrarPermisoDetalle",14},
                 {"Rol.Get", 6},
                 {"Rol.GetById", 7},
                 {"Usuario.GetUsers", 8},

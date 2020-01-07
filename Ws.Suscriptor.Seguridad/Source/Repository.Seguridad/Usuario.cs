@@ -23,6 +23,7 @@ namespace Repository.Seguridad
             this.UsuarioHist = new HashSet<UsuarioHist>();
             this.Parametro = new HashSet<Parametro>();
             this.AreaHist = new HashSet<AreaHist>();
+            this.SubAreaHist = new HashSet<SubAreaHist>();
         }
     
         public int IdUsuario { get; set; }
@@ -40,5 +41,6 @@ namespace Repository.Seguridad
         public virtual ICollection<UsuarioHist> UsuarioHist { get; set; }
         public virtual ICollection<Parametro> Parametro { get; set; }
         public virtual ICollection<AreaHist> AreaHist { get; set; }
+        public virtual ICollection<SubAreaHist> SubAreaHist { get; set; }
     }
 }

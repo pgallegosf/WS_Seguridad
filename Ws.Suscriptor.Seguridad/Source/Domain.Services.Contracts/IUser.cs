@@ -8,6 +8,8 @@ namespace Domain.Services.Contracts
     {
       EUser Obtener(string usuario);
       List<EPermiso> ListarPermiso(int idUsuario);
+      EPermisoDetalle ListarPermisoDetalle(int idUsuario, int idRol);
+      bool RegistrarPermisoDetalle(EPermisoDetalle request);
       List<EUserDto> GetUsers( string nombre = "", int idRol = 0);
       bool DesHabilitarUser(int idUsuario);
       bool AddUser(EUserAddDto userRequest);

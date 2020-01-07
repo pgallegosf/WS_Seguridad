@@ -103,6 +103,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Seguridad.edmx</DependentUpon>
     </Compile>
+    <Compile Include="SubArea.cs">
+      <DependentUpon>Seguridad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SubAreaHist.cs">
+      <DependentUpon>Seguridad.tt</DependentUpon>
+    </Compile>
     <Compile Include="Usuario.cs">
       <DependentUpon>Seguridad.tt</DependentUpon>
     </Compile>

@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\poolj\Desktop\Servicio_Seguridad_last\Ws.Suscriptor.Seguridad\Source\Repository.Seguridad\Seguridad.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\PROYECTOS\ALEATICA\GIT_TeamPool\WS_Seguridad\Ws.Suscriptor.Seguridad\Source\Repository.Seguridad\Seguridad.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

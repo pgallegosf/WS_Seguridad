@@ -18,6 +18,7 @@ namespace Repository.Seguridad
         {
             this.AreaHist = new HashSet<AreaHist>();
             this.Permiso = new HashSet<Permiso>();
+            this.SubArea = new HashSet<SubArea>();
         }
     
         public int IdArea { get; set; }
@@ -27,5 +28,6 @@ namespace Repository.Seguridad
     
         public virtual ICollection<AreaHist> AreaHist { get; set; }
         public virtual ICollection<Permiso> Permiso { get; set; }
+        public virtual ICollection<SubArea> SubArea { get; set; }
     }
 }

@@ -36,5 +36,7 @@ namespace Repository.Seguridad
         public virtual DbSet<Area> Area { get; set; }
         public virtual DbSet<AreaHist> AreaHist { get; set; }
         public virtual DbSet<AccesoError> AccesoError { get; set; }
+        public virtual DbSet<SubArea> SubArea { get; set; }
+        public virtual DbSet<SubAreaHist> SubAreaHist { get; set; }
     }
 }

@@ -60,6 +60,7 @@
     <Compile Include="EError.cs" />
     <Compile Include="EPcClient.cs" />
     <Compile Include="EPermiso.cs" />
+    <Compile Include="EPermisoDetalle.cs" />
     <Compile Include="ERol.cs" />
     <Compile Include="EToken.cs" />
     <Compile Include="EUser.cs" />

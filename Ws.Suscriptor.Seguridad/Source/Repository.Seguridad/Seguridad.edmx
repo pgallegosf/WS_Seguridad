@@ -93,6 +93,29 @@ warning 6002: The table/view 'OpeCar.auditoria.Bitacora' does not have a primary
           <Property Name="FechaModificacion" Type="datetime" />
           <Property Name="IndicadorHabilitado" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="SubArea">
+          <Key>
+            <PropertyRef Name="IdSubArea" />
+          </Key>
+          <Property Name="IdSubArea" Type="int" Nullable="false" />
+          <Property Name="IdArea" Type="int" Nullable="false" />
+          <Property Name="IdPadre" Type="int" />
+          <Property Name="IdUsuarioCreacion" Type="int" Nullable="false" />
+          <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SubAreaHist">
+          <Key>
+            <PropertyRef Name="IdSubArea" />
+            <PropertyRef Name="IdHistorial" />
+          </Key>
+          <Property Name="IdSubArea" Type="int" Nullable="false" />
+          <Property Name="IdHistorial" Type="int" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="EsUltimo" Type="bit" Nullable="false" />
+          <Property Name="IdUsuarioModificacion" Type="bigint" />
+          <Property Name="FechaModificacion" Type="datetime" />
+          <Property Name="IndicadorHabilitado" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Parametro">
           <Key>
             <PropertyRef Name="IdParametro" />
@@ -110,6 +133,7 @@ warning 6002: The table/view 'OpeCar.auditoria.Bitacora' does not have a primary
             <PropertyRef Name="IdRol" />
             <PropertyRef Name="IdArea" />
             <PropertyRef Name="IdHistorico" />
+            <PropertyRef Name="IdSubArea" />
           </Key>
           <Property Name="IdUsuario" Type="bigint" Nullable="false" />
           <Property Name="IdRol" Type="tinyint" Nullable="false" />
@@ -119,6 +143,7 @@ warning 6002: The table/view 'OpeCar.auditoria.Bitacora' does not have a primary
           <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
           <Property Name="FechaIniVig" Type="datetime" Nullable="false" />
           <Property Name="FechaFinVig" Type="datetime" />
+          <Property Name="IdSubArea" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Rol">
           <Key>
@@ -264,6 +289,54 @@ warning 6002: The table/view 'OpeCar.auditoria.Bitacora' does not have a primary
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SubArea_Area">
+          <End Role="Area" Type="Self.Area" Multiplicity="1" />
+          <End Role="SubArea" Type="Self.SubArea" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Area">
+              <PropertyRef Name="IdArea" />
+            </Principal>
+            <Dependent Role="SubArea">
+              <PropertyRef Name="IdArea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubArea_SubArea">
+          <End Role="SubArea" Type="Self.SubArea" Multiplicity="0..1" />
+          <End Role="SubArea1" Type="Self.SubArea" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubArea">
+              <PropertyRef Name="IdSubArea" />
+            </Principal>
+            <Dependent Role="SubArea1">
+              <PropertyRef Name="IdPadre" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubAreaHist_SubArea">
+          <End Role="SubArea" Type="Self.SubArea" Multiplicity="1" />
+          <End Role="SubAreaHist" Type="Self.SubAreaHist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubArea">
+              <PropertyRef Name="IdSubArea" />
+            </Principal>
+            <Dependent Role="SubAreaHist">
+              <PropertyRef Name="IdSubArea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubAreaHist_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="SubAreaHist" Type="Self.SubAreaHist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="SubAreaHist">
+              <PropertyRef Name="IdUsuarioModificacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Usuario_Usuario">
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
           <End Role="Usuario1" Type="Self.Usuario" Multiplicity="*" />
@@ -306,6 +379,8 @@ warning 6002: The table/view 'OpeCar.auditoria.Bitacora' does not have a primary
           <EntitySet Name="Aplicacion" EntityType="Self.Aplicacion" Schema="auditoria" store:Type="Tables" />
           <EntitySet Name="Area" EntityType="Self.Area" Schema="gDocumental" store:Type="Tables" />
           <EntitySet Name="AreaHist" EntityType="Self.AreaHist" Schema="gDocumental" store:Type="Tables" />
+          <EntitySet Name="SubArea" EntityType="Self.SubArea" Schema="gDocumental" store:Type="Tables" />
+          <EntitySet Name="SubAreaHist" EntityType="Self.SubAreaHist" Schema="gDocumental" store:Type="Tables" />
           <EntitySet Name="Parametro" EntityType="Self.Parametro" Schema="seguridad" store:Type="Tables" />
           <EntitySet Name="Permiso" EntityType="Self.Permiso" Schema="seguridad" store:Type="Tables" />
           <EntitySet Name="Rol" EntityType="Self.Rol" Schema="seguridad" store:Type="Tables" />
@@ -360,6 +435,22 @@ FROM [auditoria].[Bitacora] AS [Bitacora]</DefiningQuery>
           <AssociationSet Name="FK_Permiso_Usuario" Association="Self.FK_Permiso_Usuario">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Permiso" EntitySet="Permiso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubArea_Area" Association="Self.FK_SubArea_Area">
+            <End Role="Area" EntitySet="Area" />
+            <End Role="SubArea" EntitySet="SubArea" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubArea_SubArea" Association="Self.FK_SubArea_SubArea">
+            <End Role="SubArea" EntitySet="SubArea" />
+            <End Role="SubArea1" EntitySet="SubArea" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubAreaHist_SubArea" Association="Self.FK_SubAreaHist_SubArea">
+            <End Role="SubArea" EntitySet="SubArea" />
+            <End Role="SubAreaHist" EntitySet="SubAreaHist" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubAreaHist_Usuario" Association="Self.FK_SubAreaHist_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="SubAreaHist" EntitySet="SubAreaHist" />
           </AssociationSet>
           <AssociationSet Name="FK_Usuario_Usuario" Association="Self.FK_Usuario_Usuario">
             <End Role="Usuario" EntitySet="Usuario" />
@@ -417,6 +508,7 @@ FROM [auditoria].[Bitacora] AS [Bitacora]</DefiningQuery>
             <PropertyRef Name="IdRol" />
             <PropertyRef Name="IdArea" />
             <PropertyRef Name="IdHistorico" />
+            <PropertyRef Name="IdSubArea" />
           </Key>
           <Property Name="IdUsuario" Type="Int32" Nullable="false" />
           <Property Name="IdRol" Type="Byte" Nullable="false" />
@@ -429,6 +521,7 @@ FROM [auditoria].[Bitacora] AS [Bitacora]</DefiningQuery>
           <NavigationProperty Name="Rol" Relationship="Self.FK_Permiso_Rol" FromRole="Permiso" ToRole="Rol" />
           <NavigationProperty Name="Usuario" Relationship="Self.FK_Permiso_Usuario" FromRole="Permiso" ToRole="Usuario" />
           <NavigationProperty Name="Area" Relationship="OpeCarModel.FK_Permiso_Area" FromRole="Permiso" ToRole="Area" />
+          <Property Name="IdSubArea" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Rol">
           <Key>
@@ -461,6 +554,7 @@ FROM [auditoria].[Bitacora] AS [Bitacora]</DefiningQuery>
           <Property Name="IndicadorSistema" Type="Boolean" />
           <NavigationProperty Name="Parametro" Relationship="OpeCarModel.FK_Parametro_Usuario" FromRole="Usuario" ToRole="Parametro" />
           <NavigationProperty Name="AreaHist" Relationship="OpeCarModel.FK_AreaHist_Usuario" FromRole="Usuario" ToRole="AreaHist" />
+          <NavigationProperty Name="SubAreaHist" Relationship="OpeCarModel.FK_SubAreaHist_Usuario" FromRole="Usuario" ToRole="SubAreaHist" />
         </EntityType>
         <EntityType Name="UsuarioHist">
           <Key>
@@ -642,19 +736,37 @@ FROM [auditoria].[Bitacora] AS [Bitacora]</DefiningQuery>
           <EntitySet Name="Area" EntityType="OpeCarModel.Area" />
           <EntitySet Name="AreaHist" EntityType="OpeCarModel.AreaHist" />
           <AssociationSet Name="FK_AreaHist_Area" Association="OpeCarModel.FK_AreaHist_Area">
-            <End Role="Area" EntitySet="Area" />
-            <End Role="AreaHist" EntitySet="AreaHist" />
+            <End EntitySet="Area" Role="Area" />
+            <End EntitySet="AreaHist" Role="AreaHist" />
           </AssociationSet>
           <AssociationSet Name="FK_Permiso_Area" Association="OpeCarModel.FK_Permiso_Area">
             <End Role="Area" EntitySet="Area" />
             <End Role="Permiso" EntitySet="Permiso" />
           </AssociationSet>
           <AssociationSet Name="FK_AreaHist_Usuario" Association="OpeCarModel.FK_AreaHist_Usuario">
-            <End Role="Usuario" EntitySet="Usuario" />
-            <End Role="AreaHist" EntitySet="AreaHist" />
+            <End EntitySet="Usuario" Role="Usuario" />
+            <End EntitySet="AreaHist" Role="AreaHist" />
           </AssociationSet>
           <EntitySet Name="AccesoError" EntityType="OpeCarModel.AccesoError" />
-        </EntityContainer>
+          <EntitySet Name="SubArea" EntityType="OpeCarModel.SubArea" />
+          <AssociationSet Name="FK_SubArea_Area" Association="OpeCarModel.FK_SubArea_Area">
+            <End Role="Area" EntitySet="Area" />
+            <End Role="SubArea" EntitySet="SubArea" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubArea_SubArea" Association="OpeCarModel.FK_SubArea_SubArea">
+            <End Role="SubArea" EntitySet="SubArea" />
+            <End Role="SubArea1" EntitySet="SubArea" />
+          </AssociationSet>
+          <EntitySet Name="SubAreaHist" EntityType="OpeCarModel.SubAreaHist" />
+          <AssociationSet Name="FK_SubAreaHist_SubArea" Association="OpeCarModel.FK_SubAreaHist_SubArea">
+            <End Role="SubArea" EntitySet="SubArea" />
+            <End Role="SubAreaHist" EntitySet="SubAreaHist" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubAreaHist_Usuario" Association="OpeCarModel.FK_SubAreaHist_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="SubAreaHist" EntitySet="SubAreaHist" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="Parametro">
           <Key>
             <PropertyRef Name="IdParametro" />
@@ -689,25 +801,26 @@ FROM [auditoria].[Bitacora] AS [Bitacora]</DefiningQuery>
           <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="AreaHist" Relationship="OpeCarModel.FK_AreaHist_Area" FromRole="Area" ToRole="AreaHist" />
           <NavigationProperty Name="Permiso" Relationship="OpeCarModel.FK_Permiso_Area" FromRole="Area" ToRole="Permiso" />
+          <NavigationProperty Name="SubArea" Relationship="OpeCarModel.FK_SubArea_Area" FromRole="Area" ToRole="SubArea" />
         </EntityType>
         <EntityType Name="AreaHist">
           <Key>
             <PropertyRef Name="IdArea" />
             <PropertyRef Name="IdHistorial" />
           </Key>
-          <Property Name="IdArea" Type="Int32" Nullable="false" />
-          <Property Name="IdHistorial" Type="Int32" Nullable="false" />
-          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="UrlImg" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdArea" Nullable="false" Type="Int32" />
+          <Property Name="IdHistorial" Nullable="false" Type="Int32" />
+          <Property Name="Descripcion" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="UrlImg" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
           <Property Name="IdUsuarioModificacion" Type="Int32" />
-          <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
-          <Property Name="IndicadorHabilitado" Type="Boolean" Nullable="false" />
+          <Property Name="FechaModificacion" Precision="3" Type="DateTime" />
+          <Property Name="IndicadorHabilitado" Nullable="false" Type="Boolean" />
           <NavigationProperty Name="Area" Relationship="OpeCarModel.FK_AreaHist_Area" FromRole="AreaHist" ToRole="Area" />
           <NavigationProperty Name="Usuario" Relationship="OpeCarModel.FK_AreaHist_Usuario" FromRole="AreaHist" ToRole="Usuario" />
         </EntityType>
         <Association Name="FK_AreaHist_Area">
-          <End Type="OpeCarModel.Area" Role="Area" Multiplicity="1" />
-          <End Type="OpeCarModel.AreaHist" Role="AreaHist" Multiplicity="*" />
+          <End Type="OpeCarModel.Area" Multiplicity="1" Role="Area" />
+          <End Type="OpeCarModel.AreaHist" Multiplicity="*" Role="AreaHist" />
           <ReferentialConstraint>
             <Principal Role="Area">
               <PropertyRef Name="IdArea" />
@@ -730,8 +843,8 @@ FROM [auditoria].[Bitacora] AS [Bitacora]</DefiningQuery>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AreaHist_Usuario">
-          <End Type="OpeCarModel.Usuario" Role="Usuario" Multiplicity="0..1" />
-          <End Type="OpeCarModel.AreaHist" Role="AreaHist" Multiplicity="*" />
+          <End Type="OpeCarModel.Usuario" Multiplicity="0..1" Role="Usuario" />
+          <End Type="OpeCarModel.AreaHist" Multiplicity="*" Role="AreaHist" />
           <ReferentialConstraint>
             <Principal Role="Usuario">
               <PropertyRef Name="IdUsuario" />
@@ -756,7 +869,75 @@ FROM [auditoria].[Bitacora] AS [Bitacora]</DefiningQuery>
           <Property Name="Excepcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
-      </Schema>
+        <EntityType Name="SubArea">
+          <Key>
+            <PropertyRef Name="IdSubArea" />
+          </Key>
+          <Property Name="IdSubArea" Type="Int32" Nullable="false" />
+          <Property Name="IdArea" Type="Int32" Nullable="false" />
+          <Property Name="IdPadre" Type="Int32" />
+          <Property Name="IdUsuarioCreacion" Type="Int32" Nullable="false" />
+          <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Area" Relationship="OpeCarModel.FK_SubArea_Area" FromRole="SubArea" ToRole="Area" />
+          <NavigationProperty Name="SubArea1" Relationship="OpeCarModel.FK_SubArea_SubArea" FromRole="SubArea" ToRole="SubArea1" />
+          <NavigationProperty Name="SubArea2" Relationship="OpeCarModel.FK_SubArea_SubArea" FromRole="SubArea1" ToRole="SubArea" />
+          <NavigationProperty Name="SubAreaHist" Relationship="OpeCarModel.FK_SubAreaHist_SubArea" FromRole="SubArea" ToRole="SubAreaHist" />
+        </EntityType>
+        <Association Name="FK_SubArea_Area">
+          <End Type="OpeCarModel.Area" Role="Area" Multiplicity="1" />
+          <End Type="OpeCarModel.SubArea" Role="SubArea" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Area">
+              <PropertyRef Name="IdArea" />
+            </Principal>
+            <Dependent Role="SubArea">
+              <PropertyRef Name="IdArea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubArea_SubArea">
+          <End Type="OpeCarModel.SubArea" Role="SubArea" Multiplicity="0..1" />
+          <End Type="OpeCarModel.SubArea" Role="SubArea1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubArea">
+              <PropertyRef Name="IdSubArea" />
+            </Principal>
+            <Dependent Role="SubArea1">
+              <PropertyRef Name="IdPadre" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SubAreaHist">
+          <Key>
+            <PropertyRef Name="IdSubArea" />
+            <PropertyRef Name="IdHistorial" />
+          </Key>
+          <Property Name="IdSubArea" Type="Int32" Nullable="false" />
+          <Property Name="IdHistorial" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EsUltimo" Type="Boolean" Nullable="false" />
+          <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
+          <Property Name="IndicadorHabilitado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="SubArea" Relationship="OpeCarModel.FK_SubAreaHist_SubArea" FromRole="SubAreaHist" ToRole="SubArea" />
+          <NavigationProperty Name="Usuario" Relationship="OpeCarModel.FK_SubAreaHist_Usuario" FromRole="SubAreaHist" ToRole="Usuario" />
+        </EntityType>
+        <Association Name="FK_SubAreaHist_SubArea">
+          <End Type="OpeCarModel.SubArea" Role="SubArea" Multiplicity="1" />
+          <End Type="OpeCarModel.SubAreaHist" Role="SubAreaHist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubArea">
+              <PropertyRef Name="IdSubArea" />
+            </Principal>
+            <Dependent Role="SubAreaHist">
+              <PropertyRef Name="IdSubArea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubAreaHist_Usuario">
+          <End Type="OpeCarModel.Usuario" Role="Usuario" Multiplicity="0..1" />
+          <End Type="OpeCarModel.SubAreaHist" Role="SubAreaHist" Multiplicity="*" />
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -795,6 +976,7 @@ FROM [auditoria].[Bitacora] AS [Bitacora]</DefiningQuery>
           <EntitySetMapping Name="Permiso">
             <EntityTypeMapping TypeName="OpeCarModel.Permiso">
               <MappingFragment StoreEntitySet="Permiso">
+                <ScalarProperty Name="IdSubArea" ColumnName="IdSubArea" />
                 <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
                 <ScalarProperty Name="IdRol" ColumnName="IdRol" />
                 <ScalarProperty Name="IdArea" ColumnName="IdArea" />
@@ -909,7 +1091,40 @@ FROM [auditoria].[Bitacora] AS [Bitacora]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          <EntitySetMapping Name="SubArea">
+            <EntityTypeMapping TypeName="OpeCarModel.SubArea">
+              <MappingFragment StoreEntitySet="SubArea">
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="IdUsuarioCreacion" ColumnName="IdUsuarioCreacion" />
+                <ScalarProperty Name="IdPadre" ColumnName="IdPadre" />
+                <ScalarProperty Name="IdArea" ColumnName="IdArea" />
+                <ScalarProperty Name="IdSubArea" ColumnName="IdSubArea" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubAreaHist">
+            <EntityTypeMapping TypeName="OpeCarModel.SubAreaHist">
+              <MappingFragment StoreEntitySet="SubAreaHist">
+                <ScalarProperty Name="IndicadorHabilitado" ColumnName="IndicadorHabilitado" />
+                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+                <ScalarProperty Name="EsUltimo" ColumnName="EsUltimo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdHistorial" ColumnName="IdHistorial" />
+                <ScalarProperty Name="IdSubArea" ColumnName="IdSubArea" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FK_SubAreaHist_Usuario" TypeName="OpeCarModel.FK_SubAreaHist_Usuario" StoreEntitySet="SubAreaHist">
+            <EndProperty Name="SubAreaHist">
+              <ScalarProperty Name="IdHistorial" ColumnName="IdHistorial" />
+              <ScalarProperty Name="IdSubArea" ColumnName="IdSubArea" />
+            </EndProperty>
+            <EndProperty Name="Usuario">
+              <ScalarProperty Name="IdUsuario" ColumnName="IdUsuarioModificacion" />
+            </EndProperty>
+            <Condition ColumnName="IdUsuarioModificacion" IsNull="false" />
+          </AssociationSetMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>
@@ -923,8 +1138,8 @@ FROM [auditoria].[Bitacora] AS [Bitacora]</DefiningQuery>
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="false" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
         <DesignerProperty Name="UseLegacyProvider" Value="True" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
@@ -950,11 +1165,17 @@ FROM [auditoria].[Bitacora] AS [Bitacora]</DefiningQuery>
         <AssociationConnector Association="OpeCarModel.FK_UsuarioHist_Usuario" ManuallyRouted="false" />
         <AssociationConnector Association="OpeCarModel.FK_Parametro_Usuario" ManuallyRouted="false" />
         <EntityTypeShape EntityType="OpeCarModel.Area" Width="1.5" PointX="3.75" PointY="13" />
-        <EntityTypeShape EntityType="OpeCarModel.AreaHist" Width="1.5" PointX="9" PointY="10.875" />
+        <EntityTypeShape EntityType="OpeCarModel.AreaHist" PointX="9" PointY="10.875" Width="1.5" />
         <AssociationConnector Association="OpeCarModel.FK_AreaHist_Area" />
         <AssociationConnector Association="OpeCarModel.FK_Permiso_Area" />
         <AssociationConnector Association="OpeCarModel.FK_AreaHist_Usuario" />
         <EntityTypeShape EntityType="OpeCarModel.AccesoError" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="OpeCarModel.SubArea" Width="1.5" PointX="6.25" PointY="14.75" />
+        <AssociationConnector Association="OpeCarModel.FK_SubArea_Area" />
+        <AssociationConnector Association="OpeCarModel.FK_SubArea_SubArea" />
+        <EntityTypeShape EntityType="OpeCarModel.SubAreaHist" Width="1.5" PointX="8.75" PointY="15.125" />
+        <AssociationConnector Association="OpeCarModel.FK_SubAreaHist_SubArea" />
+        <AssociationConnector Association="OpeCarModel.FK_SubAreaHist_Usuario" />
       </Diagram>
     </Diagrams>
   </Designer>
