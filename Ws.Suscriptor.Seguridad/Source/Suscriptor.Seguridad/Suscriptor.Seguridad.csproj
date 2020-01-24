@@ -19,6 +19,8 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <Use64BitIISExpress />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -53,12 +55,18 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Suscriptor.Seguridad.Lib\bin\Debug\Lp.Suscriptor.Seguridad.Lib.dll</HintPath>
     </Reference>
+    <Reference Include="Lp.Suscriptor.Seguridad.Lib.Fakes">
+      <HintPath>FakesAssemblies\Lp.Suscriptor.Seguridad.Lib.Fakes.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.IdentityModel.Logging">
       <HintPath>..\..\packages\Microsoft.IdentityModel.Logging.1.1.5\lib\net45\Microsoft.IdentityModel.Logging.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.IdentityModel.Tokens">
       <HintPath>..\..\packages\Microsoft.IdentityModel.Tokens.5.1.5\lib\net45\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -153,6 +161,8 @@
     <Content Include="ActiveDirectoryService.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Fakes Include="Fakes\Lp.Suscriptor.Seguridad.Lib.fakes" />
+    <Fakes Include="Fakes\Domain.Services.fakes" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
