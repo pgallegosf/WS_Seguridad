@@ -49,18 +49,11 @@
           <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
           <Property Name="IdUsuarioCreacion" Type="bigint" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'OpeCar.auditoria.Bitacora' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Bitacora">
           <Key>
-            <PropertyRef Name="IdUsuario" />
-            <PropertyRef Name="IdAcceso" />
-            <PropertyRef Name="IdAplicacion" />
-            <PropertyRef Name="IdTipoBitacora" />
-            <PropertyRef Name="Descripcion" />
-            <PropertyRef Name="FechaCreacion" />
+            <PropertyRef Name="IdBitacora" />
           </Key>
-          <Property Name="IdBitacora" Type="bigint" />
+          <Property Name="IdBitacora" Type="bigint" Nullable="false" />
           <Property Name="IdUsuario" Type="bigint" Nullable="false" />
           <Property Name="IdAcceso" Type="bigint" Nullable="false" />
           <Property Name="IdAplicacion" Type="int" Nullable="false" />
@@ -377,6 +370,7 @@ warning 6002: The table/view 'OpeCar.auditoria.Bitacora' does not have a primary
           <EntitySet Name="Acceso" EntityType="Self.Acceso" Schema="auditoria" store:Type="Tables" />
           <EntitySet Name="AccesoError" EntityType="Self.AccesoError" Schema="auditoria" store:Type="Tables" />
           <EntitySet Name="Aplicacion" EntityType="Self.Aplicacion" Schema="auditoria" store:Type="Tables" />
+          <EntitySet Name="Bitacora" EntityType="Self.Bitacora" Schema="auditoria" store:Type="Tables" />
           <EntitySet Name="Area" EntityType="Self.Area" Schema="gDocumental" store:Type="Tables" />
           <EntitySet Name="AreaHist" EntityType="Self.AreaHist" Schema="gDocumental" store:Type="Tables" />
           <EntitySet Name="SubArea" EntityType="Self.SubArea" Schema="gDocumental" store:Type="Tables" />
@@ -386,20 +380,6 @@ warning 6002: The table/view 'OpeCar.auditoria.Bitacora' does not have a primary
           <EntitySet Name="Rol" EntityType="Self.Rol" Schema="seguridad" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="seguridad" store:Type="Tables" />
           <EntitySet Name="UsuarioHist" EntityType="Self.UsuarioHist" Schema="seguridad" store:Type="Tables" />
-          <EntitySet Name="Bitacora" EntityType="Self.Bitacora" store:Type="Tables" store:Schema="auditoria">
-            <DefiningQuery>SELECT 
-[Bitacora].[IdBitacora] AS [IdBitacora], 
-[Bitacora].[IdUsuario] AS [IdUsuario], 
-[Bitacora].[IdAcceso] AS [IdAcceso], 
-[Bitacora].[IdAplicacion] AS [IdAplicacion], 
-[Bitacora].[IdFuncion] AS [IdFuncion], 
-[Bitacora].[IdTipoBitacora] AS [IdTipoBitacora], 
-[Bitacora].[Codigo] AS [Codigo], 
-[Bitacora].[Descripcion] AS [Descripcion], 
-[Bitacora].[Pila] AS [Pila], 
-[Bitacora].[FechaCreacion] AS [FechaCreacion]
-FROM [auditoria].[Bitacora] AS [Bitacora]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_Aplicacion_Usuario" Association="Self.FK_Aplicacion_Usuario">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Aplicacion" EntitySet="Aplicacion" />
@@ -483,9 +463,9 @@ FROM [auditoria].[Bitacora] AS [Bitacora]</DefiningQuery>
           <Property Name="TokenHabilitado" Type="Boolean" Nullable="false" />
           <Property Name="TokenFechaExp" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Bitacora" Relationship="Self.FK_Bitacora_Acceso" FromRole="Acceso" ToRole="Bitacora" />
           <NavigationProperty Name="Usuario" Relationship="Self.FK_UsuarioLog_Usuario" FromRole="Acceso" ToRole="Usuario" />
           <Property Name="NombreUsuario" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Bitacora" Relationship="OpeCarModel.FK_Bitacora_Acceso" FromRole="Acceso" ToRole="Bitacora" />
         </EntityType>
         <EntityType Name="Aplicacion">
           <Key>
@@ -500,7 +480,7 @@ FROM [auditoria].[Bitacora] AS [Bitacora]</DefiningQuery>
           <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IdUsuarioCreacion" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Usuario" Relationship="Self.FK_Aplicacion_Usuario" FromRole="Aplicacion" ToRole="Usuario" />
-          <NavigationProperty Name="Bitacora" Relationship="Self.FK_Bitacora_Aplicacion" FromRole="Aplicacion" ToRole="Bitacora" />
+          <NavigationProperty Name="Bitacora" Relationship="OpeCarModel.FK_Bitacora_Aplicacion" FromRole="Aplicacion" ToRole="Bitacora" />
         </EntityType>
         <EntityType Name="Permiso">
           <Key>
@@ -568,42 +548,6 @@ FROM [auditoria].[Bitacora] AS [Bitacora]</DefiningQuery>
           <Property Name="Habilitado" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Usuario" Relationship="Self.FK_UsuarioHist_Usuario" FromRole="UsuarioHist" ToRole="Usuario" />
         </EntityType>
-        <EntityType Name="Bitacora">
-          <Key>
-            <PropertyRef Name="IdUsuario" />
-            <PropertyRef Name="IdAcceso" />
-            <PropertyRef Name="IdAplicacion" />
-            <PropertyRef Name="IdTipoBitacora" />
-            <PropertyRef Name="Descripcion" />
-            <PropertyRef Name="FechaCreacion" />
-          </Key>
-          <Property Name="IdBitacora" Type="Int64" />
-          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
-          <Property Name="IdAcceso" Type="Int64" Nullable="false" />
-          <Property Name="IdAplicacion" Type="Int32" Nullable="false" />
-          <Property Name="IdFuncion" Type="Int32" />
-          <Property Name="IdTipoBitacora" Type="Byte" Nullable="false" />
-          <Property Name="Codigo" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Pila" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Acceso" Relationship="Self.FK_Bitacora_Acceso" FromRole="Bitacora" ToRole="Acceso" />
-          <NavigationProperty Name="Aplicacion" Relationship="Self.FK_Bitacora_Aplicacion" FromRole="Bitacora" ToRole="Aplicacion" />
-        </EntityType>
-        <Association Name="FK_Bitacora_Acceso">
-          <End Role="Acceso" Type="Self.Acceso" Multiplicity="1" />
-          <End Role="Bitacora" Type="Self.Bitacora" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Acceso">
-              <PropertyRef Name="IdAcceso" />
-              <PropertyRef Name="IdUsuario" />
-            </Principal>
-            <Dependent Role="Bitacora">
-              <PropertyRef Name="IdAcceso" />
-              <PropertyRef Name="IdUsuario" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_UsuarioLog_Usuario">
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
           <End Role="Acceso" Type="Self.Acceso" Multiplicity="*" />
@@ -625,18 +569,6 @@ FROM [auditoria].[Bitacora] AS [Bitacora]</DefiningQuery>
             </Principal>
             <Dependent Role="Aplicacion">
               <PropertyRef Name="IdUsuarioCreacion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Bitacora_Aplicacion">
-          <End Role="Aplicacion" Type="Self.Aplicacion" Multiplicity="1" />
-          <End Role="Bitacora" Type="Self.Bitacora" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Aplicacion">
-              <PropertyRef Name="IdAplicacion" />
-            </Principal>
-            <Dependent Role="Bitacora">
-              <PropertyRef Name="IdAplicacion" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -695,11 +627,6 @@ FROM [auditoria].[Bitacora] AS [Bitacora]</DefiningQuery>
           <EntitySet Name="Rol" EntityType="Self.Rol" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" />
           <EntitySet Name="UsuarioHist" EntityType="Self.UsuarioHist" />
-          <EntitySet Name="Bitacora" EntityType="Self.Bitacora" />
-          <AssociationSet Name="FK_Bitacora_Acceso" Association="Self.FK_Bitacora_Acceso">
-            <End Role="Acceso" EntitySet="Acceso" />
-            <End Role="Bitacora" EntitySet="Bitacora" />
-          </AssociationSet>
           <AssociationSet Name="FK_UsuarioLog_Usuario" Association="Self.FK_UsuarioLog_Usuario">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Acceso" EntitySet="Acceso" />
@@ -707,10 +634,6 @@ FROM [auditoria].[Bitacora] AS [Bitacora]</DefiningQuery>
           <AssociationSet Name="FK_Aplicacion_Usuario" Association="Self.FK_Aplicacion_Usuario">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Aplicacion" EntitySet="Aplicacion" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Bitacora_Aplicacion" Association="Self.FK_Bitacora_Aplicacion">
-            <End Role="Aplicacion" EntitySet="Aplicacion" />
-            <End Role="Bitacora" EntitySet="Bitacora" />
           </AssociationSet>
           <AssociationSet Name="FK_Permiso_Rol" Association="Self.FK_Permiso_Rol">
             <End Role="Rol" EntitySet="Rol" />
@@ -765,6 +688,15 @@ FROM [auditoria].[Bitacora] AS [Bitacora]</DefiningQuery>
           <AssociationSet Name="FK_SubAreaHist_Usuario" Association="OpeCarModel.FK_SubAreaHist_Usuario">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="SubAreaHist" EntitySet="SubAreaHist" />
+          </AssociationSet>
+          <EntitySet Name="Bitacora" EntityType="OpeCarModel.Bitacora" />
+          <AssociationSet Name="FK_Bitacora_Acceso" Association="OpeCarModel.FK_Bitacora_Acceso">
+            <End Role="Acceso" EntitySet="Acceso" />
+            <End Role="Bitacora" EntitySet="Bitacora" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Bitacora_Aplicacion" Association="OpeCarModel.FK_Bitacora_Aplicacion">
+            <End Role="Aplicacion" EntitySet="Aplicacion" />
+            <End Role="Bitacora" EntitySet="Bitacora" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Parametro">
@@ -937,6 +869,28 @@ FROM [auditoria].[Bitacora] AS [Bitacora]</DefiningQuery>
           <End Type="OpeCarModel.Usuario" Role="Usuario" Multiplicity="0..1" />
           <End Type="OpeCarModel.SubAreaHist" Role="SubAreaHist" Multiplicity="*" />
         </Association>
+        <EntityType Name="Bitacora">
+          <Key>
+            <PropertyRef Name="IdBitacora" />
+          </Key>
+          <Property Name="IdBitacora" Type="Int64" Nullable="false" />
+          <Property Name="IdFuncion" Type="Int32" />
+          <Property Name="IdTipoBitacora" Type="Byte" Nullable="false" />
+          <Property Name="Codigo" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Pila" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Acceso" Relationship="OpeCarModel.FK_Bitacora_Acceso" FromRole="Bitacora" ToRole="Acceso" />
+          <NavigationProperty Name="Aplicacion" Relationship="OpeCarModel.FK_Bitacora_Aplicacion" FromRole="Bitacora" ToRole="Aplicacion" />
+        </EntityType>
+        <Association Name="FK_Bitacora_Acceso">
+          <End Type="OpeCarModel.Acceso" Role="Acceso" Multiplicity="1" />
+          <End Type="OpeCarModel.Bitacora" Role="Bitacora" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_Bitacora_Aplicacion">
+          <End Type="OpeCarModel.Aplicacion" Role="Aplicacion" Multiplicity="1" />
+          <End Type="OpeCarModel.Bitacora" Role="Bitacora" Multiplicity="*" />
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1024,22 +978,6 @@ FROM [auditoria].[Bitacora] AS [Bitacora]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Bitacora">
-            <EntityTypeMapping TypeName="OpeCarModel.Bitacora">
-              <MappingFragment StoreEntitySet="Bitacora">
-                <ScalarProperty Name="IdBitacora" ColumnName="IdBitacora" />
-                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
-                <ScalarProperty Name="IdAcceso" ColumnName="IdAcceso" />
-                <ScalarProperty Name="IdAplicacion" ColumnName="IdAplicacion" />
-                <ScalarProperty Name="IdFuncion" ColumnName="IdFuncion" />
-                <ScalarProperty Name="IdTipoBitacora" ColumnName="IdTipoBitacora" />
-                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
-                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-                <ScalarProperty Name="Pila" ColumnName="Pila" />
-                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Parametro">
             <EntityTypeMapping TypeName="OpeCarModel.Parametro">
               <MappingFragment StoreEntitySet="Parametro">
@@ -1124,6 +1062,36 @@ FROM [auditoria].[Bitacora] AS [Bitacora]</DefiningQuery>
             </EndProperty>
             <Condition ColumnName="IdUsuarioModificacion" IsNull="false" />
           </AssociationSetMapping>
+          <EntitySetMapping Name="Bitacora">
+            <EntityTypeMapping TypeName="OpeCarModel.Bitacora">
+              <MappingFragment StoreEntitySet="Bitacora">
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="Pila" ColumnName="Pila" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="IdTipoBitacora" ColumnName="IdTipoBitacora" />
+                <ScalarProperty Name="IdFuncion" ColumnName="IdFuncion" />
+                <ScalarProperty Name="IdBitacora" ColumnName="IdBitacora" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FK_Bitacora_Acceso" TypeName="OpeCarModel.FK_Bitacora_Acceso" StoreEntitySet="Bitacora">
+            <EndProperty Name="Bitacora">
+              <ScalarProperty Name="IdBitacora" ColumnName="IdBitacora" />
+            </EndProperty>
+            <EndProperty Name="Acceso">
+              <ScalarProperty Name="IdAcceso" ColumnName="IdAcceso" />
+              <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_Bitacora_Aplicacion" TypeName="OpeCarModel.FK_Bitacora_Aplicacion" StoreEntitySet="Bitacora">
+            <EndProperty Name="Bitacora">
+              <ScalarProperty Name="IdBitacora" ColumnName="IdBitacora" />
+            </EndProperty>
+            <EndProperty Name="Aplicacion">
+              <ScalarProperty Name="IdAplicacion" ColumnName="IdAplicacion" />
+            </EndProperty>
+          </AssociationSetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -1153,12 +1121,9 @@ FROM [auditoria].[Bitacora] AS [Bitacora]</DefiningQuery>
         <EntityTypeShape EntityType="OpeCarModel.Rol" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="OpeCarModel.Usuario" Width="1.5" PointX="0.75" PointY="9.25" IsExpanded="true" />
         <EntityTypeShape EntityType="OpeCarModel.UsuarioHist" Width="1.5" PointX="3" PointY="15.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="OpeCarModel.Bitacora" Width="1.5" PointX="5.25" PointY="6.375" IsExpanded="true" />
         <EntityTypeShape EntityType="OpeCarModel.Parametro" Width="1.5" PointX="3" PointY="18.75" IsExpanded="true" />
-        <AssociationConnector Association="OpeCarModel.FK_Bitacora_Acceso" ManuallyRouted="false" />
         <AssociationConnector Association="OpeCarModel.FK_UsuarioLog_Usuario" ManuallyRouted="false" />
         <AssociationConnector Association="OpeCarModel.FK_Aplicacion_Usuario" ManuallyRouted="false" />
-        <AssociationConnector Association="OpeCarModel.FK_Bitacora_Aplicacion" ManuallyRouted="false" />
         <AssociationConnector Association="OpeCarModel.FK_Permiso_Rol" ManuallyRouted="false" />
         <AssociationConnector Association="OpeCarModel.FK_Permiso_Usuario" ManuallyRouted="false" />
         <AssociationConnector Association="OpeCarModel.FK_Usuario_Usuario" ManuallyRouted="false" />
@@ -1176,7 +1141,10 @@ FROM [auditoria].[Bitacora] AS [Bitacora]</DefiningQuery>
         <EntityTypeShape EntityType="OpeCarModel.SubAreaHist" Width="1.5" PointX="8.75" PointY="15.125" />
         <AssociationConnector Association="OpeCarModel.FK_SubAreaHist_SubArea" />
         <AssociationConnector Association="OpeCarModel.FK_SubAreaHist_Usuario" />
-      </Diagram>
+        <EntityTypeShape EntityType="OpeCarModel.Bitacora" Width="1.5" PointX="5.25" PointY="6.625" />
+        <AssociationConnector Association="OpeCarModel.FK_Bitacora_Acceso" />
+        <AssociationConnector Association="OpeCarModel.FK_Bitacora_Aplicacion" />
+        </Diagram>
     </Diagrams>
   </Designer>
 </edmx:Edmx>
