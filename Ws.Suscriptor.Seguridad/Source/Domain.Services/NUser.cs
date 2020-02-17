@@ -17,6 +17,15 @@ namespace Domain.Services
        {
            return new DUser().ListarPermiso(idUsuario);
        }
+       public EPermisoDetalle ListarPermisoDetalle(int idUsuario,int idRol)
+       {
+           return new DUser().ListarPermisoDetalle(idUsuario, idRol);
+       }
+       public bool RegistrarPermisoDetalle(EPermisoDetalle request)
+       {
+           return new DUser().RegistrarPermisoDetalle(request);
+       }
+       
 
        public List<EUserDto> GetUsers(string nombre = "", int idRol = 0)
        {

@@ -10,8 +10,8 @@ namespace Lp.Suscriptor.Seguridad
     {
         public static void RegisterComponents()
         {
-			var container = new UnityContainer();
-            container.RegisterType<IActiveDirectory, NActiveDirectory>();      
+            var container = new UnityContainer();
+            container.RegisterType<IActiveDirectory, NActiveDirectory>();
             container.RegisterType<IToken, NToken>();
             container.RegisterType<IUser, NUser>();
             container.RegisterType<IRol, NRol>();

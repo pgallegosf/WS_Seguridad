@@ -46,10 +46,10 @@ namespace Lp.Suscriptor.Seguridad.Controllers
                     }
                 };
                 
-                if (!_activeDirectory.Autenticar(ref usuario, out mensaje)) {
-                    var response = new ExceptionResponse { Mensaje = mensaje, Pila =""};
-                    return Request.CreateResponse(HttpStatusCode.Unauthorized, response);
-                }
+                //if (!_activeDirectory.Autenticar(ref usuario, out mensaje)) {
+                //    var response = new ExceptionResponse { Mensaje = mensaje, Pila =""};
+                //    return Request.CreateResponse(HttpStatusCode.Unauthorized, response);
+                //}
 
                 var usuarioBd = _sUsuario.Obtener(login.Usuario);
                 if (usuarioBd == null)
