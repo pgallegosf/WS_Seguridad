@@ -66,13 +66,13 @@
     <Compile Include="NUser.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Repository.ActiveDirectory.Contracts\Repository.ActiveDirectory.Contracts.csproj">
-      <Project>{fc446716-b9a1-4b58-ba38-6116f5cbbc5e}</Project>
-      <Name>Repository.ActiveDirectory.Contracts</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Domain.Entities\Domain.Entities.csproj">
       <Project>{e2acee56-a3b1-44c7-b909-a691d3d821e2}</Project>
       <Name>Domain.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Repository.ActiveDirectory.Contracts\Repository.ActiveDirectory.Contracts.csproj">
+      <Project>{fc446716-b9a1-4b58-ba38-6116f5cbbc5e}</Project>
+      <Name>Repository.ActiveDirectory.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\Domain.Services.Contracts\Domain.Services.Contracts.csproj">
       <Project>{ca482bde-07fe-4e99-8263-64c13c36e9de}</Project>
